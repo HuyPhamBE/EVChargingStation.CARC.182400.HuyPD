@@ -51,6 +51,7 @@ namespace EVChargingStation.CARC.Application.HuyPD.Services
                 .ToList();
             var result = pagedItems.Select(f => new VehiclesResponseDTO
             {
+                HuyPDID = f.HuyPDID,
                 Make = f.Make,
                 Model = f.Model,
                 Year = f.Year,
@@ -69,6 +70,7 @@ namespace EVChargingStation.CARC.Application.HuyPD.Services
             }
             var response = new VehiclesResponseDTO
             {
+                HuyPDID = vehicle.HuyPDID,
                 Make = vehicle.Make,
                 Model = vehicle.Model,
                 Year = vehicle.Year,

@@ -58,5 +58,11 @@ namespace EVChargingStation.CARC.WebAPI.HuyPD.Controller
             await userService.DeleteUser(userId);
             return Ok(new { message = "User is banned" });
         }
+        [HttpPost("refresh")]
+        public async Task<IActionResult> RefreshToken([FromBody] string refreshToken, [FromServices] IConfiguration configuration)
+        {
+            var result = await userService.RefreshTokenAsync(refreshToken, configuration);
+            return Ok(result);
+        }
     }
 }

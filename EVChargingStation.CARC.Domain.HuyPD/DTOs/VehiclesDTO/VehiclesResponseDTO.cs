@@ -10,6 +10,7 @@ namespace EVChargingStation.CARC.Domain.HuyPD.DTOs.VehiclesDTO
 {
     public class VehiclesResponseDTO
     {
+        public Guid HuyPDID { get; set; }
         [Required]        
         public string Make { get; set; } = string.Empty;
 

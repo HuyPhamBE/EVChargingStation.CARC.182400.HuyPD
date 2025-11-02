@@ -25,7 +25,7 @@ namespace EVChargingStation.CARC.WebAPI.HuyPD.Controller
         {
            return await vehicleHuyPDService.getAllVehicleAsync(page, pageSize, model, brand, connectorType);            
         }
-        [HttpGet("/{guid}")]        
+        [HttpGet("{guid}")]        
         public async Task<ActionResult<VehiclesResponseDTO>> getVehicleByIdAsync(Guid guid)
         {
             var vehicle = await vehicleHuyPDService.getVehicleByIdAsync(guid);
@@ -46,12 +46,9 @@ namespace EVChargingStation.CARC.WebAPI.HuyPD.Controller
 
             var result = await vehicleHuyPDService.AddVehicleAsync(vehicleDTO, Guid.Parse(userId));
 
-            return CreatedAtAction(
-                nameof(getVehicleByIdAsync),                
-                new { message = "Vehicle added successfully."}
-            );
+            return Ok(new { message = "Vehicle added successfully.", data = result });
         }
-        [HttpPut("/{guid}")]
+        [HttpPut("{guid}")]
         public async Task<IActionResult> UpdateVehicleAsync([FromBody]VehiclesResponseDTO vehicleDTO, Guid guid)
         {
             if (vehicleDTO == null)
@@ -63,7 +60,7 @@ namespace EVChargingStation.CARC.WebAPI.HuyPD.Controller
 
             return Ok(new { message = "Vehicle updated successfully." });
         }
-        [HttpDelete("/{guid}")]
+        [HttpDelete("{guid}")]
         public async Task<IActionResult> DeleteVehicleAsync(Guid guid)
         {
             var deleted = await vehicleHuyPDService.DeleteVehicleAsync(guid);

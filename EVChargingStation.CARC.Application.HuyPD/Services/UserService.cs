@@ -14,6 +14,7 @@ namespace EVChargingStation.CARC.Application.HuyPD.Services
     public interface IUserService
     {
         public Task<LoginResponseDTO> LoginAsync(LoginDTO loginDTO, IConfiguration configuration);
+        public Task<LoginResponseDTO> RefreshTokenAsync(String refreshToken, IConfiguration configuration);
         public Task<bool> Logout(Guid userId);
         public Task RegisterAsync(RegisterDTO registerDTO);
         public Task<List<User>> GetAllUserAsync();
@@ -55,6 +56,25 @@ namespace EVChargingStation.CARC.Application.HuyPD.Services
             {
                 throw new UnauthorizedAccessException("Invalid email or password.");
             }
+        }
+        public async Task<LoginResponseDTO> RefreshTokenAsync(String refreshToken, IConfiguration configuration)
+        {
+            var user = await _unitOfWork.Users.FirstOrDefaultAsync(u => u.RefreshToken == refreshToken && u.IsDeleted == false);
+            if (user == null || user.RefreshTokenExpiryTime <= DateTime.UtcNow)
+            {
+                throw new UnauthorizedAccessException("Invalid or expired refresh token.");
+            }
+            var newAccessToken = JwtUtils.GenerateJwtToken(user.HuyPDID, user.Email, user.Role.ToString(), configuration, TimeSpan.FromMinutes(15));
+            var newRefreshToken = Guid.NewGuid().ToString();
+            user.RefreshToken = newRefreshToken;
+            user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
+            await _unitOfWork.Users.Update(user);
+            await _unitOfWork.SaveChangesAsync();
+            return new LoginResponseDTO
+            {
+                AccessToken = newAccessToken,
+                RefreshToken = newRefreshToken,
+            };
         }
         public Task<bool> Logout(Guid userId)
         {
