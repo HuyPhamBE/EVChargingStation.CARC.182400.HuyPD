@@ -52,9 +52,9 @@ public static class IocContainer
         var connectionString = configuration.GetConnectionString("DefaultConnection");
 
         // Đăng ký DbContext với Npgsql - Postgres
-        services.AddDbContext<FA25_SWD392_SE182594_G6_EvChargingStation>(options =>
+        services.AddDbContext<FA25_SWD392_SE182400_G6_EvChargingStation>(options =>
             options.UseNpgsql(connectionString,
-                sql => sql.MigrationsAssembly(typeof(FA25_SWD392_SE182594_G6_EvChargingStation).Assembly.FullName)
+                sql => sql.MigrationsAssembly(typeof(FA25_SWD392_SE182400_G6_EvChargingStation).Assembly.FullName)
             )
         );
 

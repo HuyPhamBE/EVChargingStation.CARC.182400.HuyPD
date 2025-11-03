@@ -4,12 +4,12 @@ using Microsoft.Extensions.Configuration;
 
 namespace EVChargingStation.CARC.Domain.HuyPD
 {
-    public class FA25_SWD392_SE182594_G6_EvChargingStationFactory : IDesignTimeDbContextFactory<FA25_SWD392_SE182594_G6_EvChargingStation>
+    public class FA25_SWD392_SE182594_G6_EvChargingStationFactory : IDesignTimeDbContextFactory<FA25_SWD392_SE182400_G6_EvChargingStation>
     {
-        public FA25_SWD392_SE182594_G6_EvChargingStation CreateDbContext(string[] args)
+        public FA25_SWD392_SE182400_G6_EvChargingStation CreateDbContext(string[] args)
         {
             // For migrations and other design-time operations
-            var optionsBuilder = new DbContextOptionsBuilder<FA25_SWD392_SE182594_G6_EvChargingStation>();
+            var optionsBuilder = new DbContextOptionsBuilder<FA25_SWD392_SE182400_G6_EvChargingStation>();
 
             // Set up configuration to read connection string
             var configuration = new ConfigurationBuilder()
@@ -23,9 +23,9 @@ namespace EVChargingStation.CARC.Domain.HuyPD
 
             // For PostgreSQL: Npgsql.EntityFrameworkCore.PostgreSQL
             optionsBuilder.UseNpgsql(connectionString,
-                npgsqlOptionsAction => npgsqlOptionsAction.MigrationsAssembly(typeof(FA25_SWD392_SE182594_G6_EvChargingStation).Assembly.FullName));
+                npgsqlOptionsAction => npgsqlOptionsAction.MigrationsAssembly(typeof(FA25_SWD392_SE182400_G6_EvChargingStation).Assembly.FullName));
 
-            return new FA25_SWD392_SE182594_G6_EvChargingStation(optionsBuilder.Options);
+            return new FA25_SWD392_SE182400_G6_EvChargingStation(optionsBuilder.Options);
         }
     }
 }

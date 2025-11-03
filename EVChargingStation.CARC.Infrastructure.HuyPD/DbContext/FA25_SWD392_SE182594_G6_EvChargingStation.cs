@@ -5,11 +5,11 @@ using Microsoft.Extensions.Configuration;
 
 namespace EVChargingStation.CARC.Domain.HuyPD
 {
-    public class FA25_SWD392_SE182594_G6_EvChargingStation : DbContext
+    public class FA25_SWD392_SE182400_G6_EvChargingStation : DbContext
     {
-        public FA25_SWD392_SE182594_G6_EvChargingStation() { }
+        public FA25_SWD392_SE182400_G6_EvChargingStation() { }
 
-        public FA25_SWD392_SE182594_G6_EvChargingStation(DbContextOptions<FA25_SWD392_SE182594_G6_EvChargingStation> options)
+        public FA25_SWD392_SE182400_G6_EvChargingStation(DbContextOptions<FA25_SWD392_SE182400_G6_EvChargingStation> options)
             : base(options)
         { }
 

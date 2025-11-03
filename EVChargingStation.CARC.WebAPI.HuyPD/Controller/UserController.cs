@@ -1,6 +1,8 @@
 ﻿using EVChargingStation.CARC.Application.HuyPD.Services;
 using EVChargingStation.CARC.Application.HuyPD.Utils;
 using EVChargingStation.CARC.Domain.HuyPD.DTOs.AuthDTO;
+using EVChargingStation.CARC.Infrastructure.Commons;
+using EVChargingStation.CARC.Infrastructure.HuyPD.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,10 +13,13 @@ namespace EVChargingStation.CARC.WebAPI.HuyPD.Controller
     [Route("api/auth/")]
     public class UserController : ControllerBase
     {
-        public IUserService userService;
-        public UserController(IUserService userService)
+        public readonly IUserService userService;
+        private readonly IClaimsService claimsService;
+
+        public UserController(IUserService userService,IClaimsService claimsService)
         {
             this.userService = userService;
+            this.claimsService = claimsService;
         }
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDTO loginDTO, [FromServices] IConfiguration configuration)
@@ -32,16 +37,19 @@ namespace EVChargingStation.CARC.WebAPI.HuyPD.Controller
             }
         }
         [HttpPost("logout")]
-        public async Task<IActionResult> Logout(Guid userId)
+        public async Task<IActionResult> Logout()
         {
-            var result = await userService.Logout(userId);
-            if (result)
+            try
             {
-                return Ok(new { message = "Logout successful" });
+                var userId = claimsService.GetCurrentUserId;
+                var result = await userService.Logout(userId);
+                return Ok(ApiResult<object>.Success(result!, "200", "Loged out successfully."));
             }
-            else
+            catch (Exception ex)
             {
-                return BadRequest(new { message = "Logout failed" });
+                var statusCode = ExceptionUtils.ExtractStatusCode(ex);
+                var errorResponse = ExceptionUtils.CreateErrorResponse<object>(ex);
+                return StatusCode(statusCode, errorResponse);
             }
         }
         [HttpPost("register")]

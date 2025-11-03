@@ -6,9 +6,9 @@ namespace EVChargingStation.CARC.Infrastructure.HuyPD
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly FA25_SWD392_SE182594_G6_EvChargingStation _dbContext;
+        private readonly FA25_SWD392_SE182400_G6_EvChargingStation _dbContext;
 
-        public UnitOfWork(FA25_SWD392_SE182594_G6_EvChargingStation dbContext,
+        public UnitOfWork(FA25_SWD392_SE182400_G6_EvChargingStation dbContext,
             IGenericRepository<User> userRepository,
             IGenericRepository<VehicleHuyPD> vehicleHuyPDRepository)
         {

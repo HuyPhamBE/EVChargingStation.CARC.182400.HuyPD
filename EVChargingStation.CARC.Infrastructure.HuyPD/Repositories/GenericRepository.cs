@@ -9,11 +9,11 @@ namespace EVChargingStation.CARC.Infrastructure.HuyPD.Repositories
     public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : BaseEntity
     {
         private readonly IClaimsService _claimsService;
-        private readonly FA25_SWD392_SE182594_G6_EvChargingStation _dbContext;
+        private readonly FA25_SWD392_SE182400_G6_EvChargingStation _dbContext;
         private readonly DbSet<TEntity> _dbSet;
         private readonly ICurrentTime _timeService;
 
-        public GenericRepository(FA25_SWD392_SE182594_G6_EvChargingStation context, ICurrentTime timeService, IClaimsService claimsService)
+        public GenericRepository(FA25_SWD392_SE182400_G6_EvChargingStation context, ICurrentTime timeService, IClaimsService claimsService)
         {
             _dbSet = context.Set<TEntity>();
             _dbContext = context;

@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace EVChargingStation.CARC.Domain.HuyPD.Migrations
 {
-    [DbContext(typeof(FA25_SWD392_SE182594_G6_EvChargingStation))]
+    [DbContext(typeof(FA25_SWD392_SE182400_G6_EvChargingStation))]
     [Migration("20251010080216_EvChargingStationDb")]
     partial class EvChargingStationDb
     {
