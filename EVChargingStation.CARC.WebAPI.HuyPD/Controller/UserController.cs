@@ -1,4 +1,5 @@
 ﻿using EVChargingStation.CARC.Application.HuyPD.Services;
+using EVChargingStation.CARC.Application.HuyPD.Utils;
 using EVChargingStation.CARC.Domain.HuyPD.DTOs.AuthDTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -7,7 +8,7 @@ namespace EVChargingStation.CARC.WebAPI.HuyPD.Controller
 {
     [ApiController]
     [AllowAnonymous]
-    [Route("api/[controller]")]
+    [Route("api/auth/")]
     public class UserController : ControllerBase
     {
         public IUserService userService;
@@ -18,10 +19,19 @@ namespace EVChargingStation.CARC.WebAPI.HuyPD.Controller
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDTO loginDTO, [FromServices] IConfiguration configuration)
         {
-            var result = await userService.LoginAsync(loginDTO, configuration);
-            return Ok(result);
+            try
+            {
+                var result = await userService.LoginAsync(loginDTO, configuration);
+                return Ok(ApiResult<LoginResponseDTO>.Success(result!, "200", "Login successful."));
+            }
+            catch (Exception ex)
+            {
+                var statusCode = ExceptionUtils.ExtractStatusCode(ex);
+                var errorResponse = ExceptionUtils.CreateErrorResponse<LoginResponseDTO>(ex);
+                return StatusCode(statusCode, errorResponse);
+            }
         }
-        [HttpPost("logout/{userId}")]
+        [HttpPost("logout")]
         public async Task<IActionResult> Logout(Guid userId)
         {
             var result = await userService.Logout(userId);
@@ -58,7 +68,7 @@ namespace EVChargingStation.CARC.WebAPI.HuyPD.Controller
             await userService.DeleteUser(userId);
             return Ok(new { message = "User is banned" });
         }
-        [HttpPost("refresh")]
+        [HttpPost("refresh-token")]
         public async Task<IActionResult> RefreshToken([FromBody] string refreshToken, [FromServices] IConfiguration configuration)
         {
             var result = await userService.RefreshTokenAsync(refreshToken, configuration);

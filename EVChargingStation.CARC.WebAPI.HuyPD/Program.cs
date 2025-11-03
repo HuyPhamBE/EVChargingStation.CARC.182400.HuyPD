@@ -61,7 +61,7 @@ builder.Services.AddCors(options =>
             policy.WithOrigins(
                 "https://evchargingstation.ae-tao-fullstack-api.site",  // Production
                 "http://localhost:5000",                                // Local dev
-                "http://localhost:3001"                                 // Local dev
+                "http://localhost:3000"                                 // Local dev
             )
             .AllowAnyHeader()
             .AllowAnyMethod()

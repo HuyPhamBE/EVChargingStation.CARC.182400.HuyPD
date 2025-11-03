@@ -10,7 +10,7 @@ using System.Security.Claims;
 namespace EVChargingStation.CARC.WebAPI.HuyPD.Controller
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/vehicle")]
     [Authorize]
     public class VehicleController : ControllerBase
     {
